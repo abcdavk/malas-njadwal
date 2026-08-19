@@ -1,3 +1,3 @@
 # Malas Njadwal
 
-[Visit](msc.abcdavk.my.id)
+[Visit](https://msc.abcdavk.my.id)
