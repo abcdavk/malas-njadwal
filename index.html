@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembaca Jadwal Kuliah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Langsung ke konten utama</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <p class="eyebrow">Kartu Rencana &mdash; Pembaca Jadwal</p>
+    <h1>Ubah data jadwal jadi kartu yang mudah dibaca</h1>
+    <p class="lede">Tempelkan data mata kuliah mentah (hasil salin dari SIA, Excel, atau PDF), dan alat ini akan menatanya jadi kartu per mata kuliah lengkap dengan hari, jam, ruang, dan dosen pengampu.</p>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="panel input-panel" aria-labelledby="input-heading">
+    <div class="wrap">
+      <h2 id="input-heading">1. Tempel data</h2>
+      <p class="hint">Setiap mata kuliah biasanya terdiri dari 4 baris: kode &amp; nama mata kuliah, jadwal, nama dosen, dan satu angka tambahan. Tempelkan apa adanya &mdash; alat ini akan mengenali polanya sendiri.</p>
+
+      <div class="field">
+        <label for="raw-input">Data mentah</label>
+        <textarea id="raw-input" rows="10" spellcheck="false" placeholder="IF21&#9;100210092&#9;Bela Negara dan Widya Mwat Yasa&#9;IF-C&#9;2&#9;
+Selasa 15:00 - 16:45 Patt.II-2A
+Heriyanto Dr. A.Md., S.Kom., M.Cs.
+0"></textarea>
+      </div>
+
+      <div class="actions">
+        <button id="parse-btn" type="button" class="btn btn-primary">Proses data</button>
+        <button id="example-btn" type="button" class="btn btn-ghost">Muat contoh</button>
+        <button id="clear-btn" type="button" class="btn btn-ghost">Bersihkan</button>
+      </div>
+
+      <p id="parse-status" class="status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="results-section" class="panel results-panel" aria-labelledby="results-heading" hidden>
+    <div class="wrap">
+
+      <div class="results-header">
+        <h2 id="results-heading">2. Daftar mata kuliah <span id="result-count" class="count-badge"></span></h2>
+        <div class="view-toggle" role="group" aria-label="Pilih tampilan">
+          <button type="button" class="toggle-btn" data-view="card" aria-pressed="true">Tampilan kartu</button>
+          <button type="button" class="toggle-btn" data-view="table" aria-pressed="false">Tampilan tabel</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <div class="field field-search">
+          <label for="search-input">Cari mata kuliah, dosen, atau kelas</label>
+          <input id="search-input" type="search" placeholder="Contoh: struktur data, Heriyanto, IF-B&hellip;">
+        </div>
+
+        <fieldset class="field-days">
+          <legend>Saring berdasarkan hari</legend>
+          <div id="day-chips" class="chip-group"></div>
+        </fieldset>
+      </div>
+
+      <p id="empty-state" class="empty-state" hidden>Tidak ada mata kuliah yang cocok dengan pencarian atau saringan ini.</p>
+
+      <div id="card-view" class="card-grid" aria-live="polite"></div>
+
+      <div id="table-view" class="table-wrap" hidden>
+        <table>
+          <caption class="sr-only">Tabel jadwal mata kuliah, dapat diurutkan dengan tombol pada setiap kolom</caption>
+          <thead>
+            <tr>
+              <th scope="col">Mata kuliah</th>
+              <th scope="col">Kelas</th>
+              <th scope="col">SKS</th>
+              <th scope="col">Hari</th>
+              <th scope="col">Jam</th>
+              <th scope="col">Ruang</th>
+              <th scope="col">Dosen</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Data diproses sepenuhnya di peramban Anda &mdash; tidak dikirim ke server mana pun.</p>
+  </div>
+</footer>
+
+<template id="card-template">
+  <article class="course-card">
+    <span class="card-hole card-hole-left" aria-hidden="true"></span>
+    <span class="card-hole card-hole-right" aria-hidden="true"></span>
+    <div class="card-top">
+      <span class="day-stamp" data-day-stamp></span>
+      <span class="sks-badge" data-sks-badge></span>
+    </div>
+    <h3 class="card-title" data-title></h3>
+    <p class="card-code" data-code></p>
+    <dl class="card-meta">
+      <div class="meta-row">
+        <dt>Jadwal</dt>
+        <dd data-schedule></dd>
+      </div>
+      <div class="meta-row">
+        <dt>Ruang</dt>
+        <dd data-room></dd>
+      </div>
+      <div class="meta-row">
+        <dt>Kelas</dt>
+        <dd data-class></dd>
+      </div>
+      <div class="meta-row">
+        <dt>Dosen</dt>
+        <dd data-lecturer></dd>
+      </div>
+    </dl>
+    <p class="card-extra" data-extra hidden></p>
+  </article>
+</template>
+
+<script src="script.js"></script>
+</body>
+</html>
